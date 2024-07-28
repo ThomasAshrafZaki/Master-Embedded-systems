@@ -1,0 +1,114 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+sram             0x20000000         0x00005000         xrw
+flash            0x08000000         0x00020000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+
+.TEXT           0x08000000      0x190
+ *(.vectors)
+ .vectors       0x08000000       0x14 startup.o
+                0x08000000                vectors
+ *(.text)
+ .text          0x08000014       0xbc main.o
+                0x08000014                Hard_Fault_handler
+                0x08000020                main
+ .text          0x080000d0       0xc0 startup.o
+                0x080000d0                reset_handler
+                0x08000184                NM_Fault_handler
+                0x08000184                Default_handler
+                0x08000184                NMI_handler
+ *(.rodata)
+                0x08000190                _End_Text = .
+
+.glue_7         0x08000190        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x08000190        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x08000190        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08000190        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x08000190        0x0
+ .iplt          0x00000000        0x0 main.o
+
+.igot.plt       0x08000190        0x0
+ .igot.plt      0x00000000        0x0 main.o
+
+.rel.dyn        0x08000190        0x0
+ .rel.iplt      0x00000000        0x0 main.o
+
+.DATA           0x20000000        0x4 load address 0x08000190
+                0x20000000                _Start_Data = .
+ *(.data*)
+ .data          0x20000000        0x4 main.o
+                0x20000000                ODR
+ .data          0x20000004        0x0 startup.o
+                0x20000004                . = ALIGN (0x4)
+                0x20000004                _End_Data = .
+
+.BSS            0x20000004     0x1000 load address 0x08000194
+                0x20000004                _Start_Bss = .
+ *(.bss*)
+ .bss           0x20000004        0x0 main.o
+ .bss           0x20000004        0x0 startup.o
+                0x20000004                . = ALIGN (0x4)
+                0x20000004                _End_Bss = .
+                0x20001004                . = (. + 0x1000)
+ *fill*         0x20000004     0x1000 
+                0x20001004                _stack_top = .
+LOAD main.o
+LOAD startup.o
+OUTPUT(toggle_led_ByCortex-m3.elf elf32-littlearm)
+
+.debug_info     0x00000000      0x317
+ .debug_info    0x00000000      0x165 main.o
+ .debug_info    0x00000165      0x1b2 startup.o
+
+.debug_abbrev   0x00000000      0x1c4
+ .debug_abbrev  0x00000000       0xe9 main.o
+ .debug_abbrev  0x000000e9       0xdb startup.o
+
+.debug_loc      0x00000000       0xc8
+ .debug_loc     0x00000000       0x64 main.o
+ .debug_loc     0x00000064       0x64 startup.o
+
+.debug_aranges  0x00000000       0x40
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 startup.o
+
+.debug_line     0x00000000       0xdf
+ .debug_line    0x00000000       0x68 main.o
+ .debug_line    0x00000068       0x77 startup.o
+
+.debug_str      0x00000000      0x1ad
+ .debug_str     0x00000000      0x10f main.o
+                                0x148 (size before relaxing)
+ .debug_str     0x0000010f       0x9e startup.o
+                                0x1a2 (size before relaxing)
+
+.comment        0x00000000       0x11
+ .comment       0x00000000       0x11 main.o
+                                 0x12 (size before relaxing)
+ .comment       0x00000000       0x12 startup.o
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x33 main.o
+ .ARM.attributes
+                0x00000033       0x33 startup.o
+
+.debug_frame    0x00000000       0x90
+ .debug_frame   0x00000000       0x44 main.o
+ .debug_frame   0x00000044       0x4c startup.o
