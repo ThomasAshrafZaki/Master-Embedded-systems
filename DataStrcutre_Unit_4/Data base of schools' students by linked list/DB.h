@@ -18,18 +18,14 @@ typedef struct
 }Sdata_t;
 
 //Dprint to solve debug issue in eclipse
-#define Dprint(...)    {fflush(stdout);\
-						fflush(stdin);\
-						printf(__VA_ARGS__);\
-						fflush(stdout);\
-						fflush(stdin);}
-typedef struct SStudent
+#define Dprint(...)    {fflush(stdout); printf(__VA_ARGS__); fflush(stdout);}
+struct SStudent
 {
 	Sdata_t student;
 	struct SStudent * PNext_student;
-}SStudent_t;
+};
 
-SStudent_t * GPFirst_student;
+struct SStudent *GPFirst_student;
 
 //states
 typedef enum {
@@ -44,11 +40,11 @@ void ADD_STUDENT();
 int DELET_STUDENT();
 void DELET_AllSTUDENT();
 void Show_List();
-void Find_MiddleRecord();
-int Find_Length(SStudent_t * student);
-void Give_Index_ToPrintData();
-void Give_Index_ToPrintData_FromEnd();
-void point_To_NULL(SStudent_t *student);
+int Find_MiddleRecord();
+int Find_Length(struct SStudent * first_student);
+int Give_Index_ToPrintData();
+int Give_Index_ToPrintData_FromEnd();
+struct SStudent * check_malloc_return();
 void print_states();
 
 #endif /* DB_H_ */

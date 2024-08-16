@@ -12,55 +12,52 @@
 #include "string.h"
 #include "DB.h"
 
-void main(void)
+int main(void)
 {
-
 	while(1){
-		print_states();
 		int state_num;
-		//enter state
-		Dprint("\n Enter the num of state : ");
-		scanf("%d",state_num);
-		Dprint("\n--------------------------------------- ");
+		print_states();
+		fflush(stdin);fflush(stdout);
+		scanf("%d",&state_num);
+		printf("\n----------------------------------------------------- ");
 		switch(state_num){
-		case1:{
+		case 1:{
 			ADD_STUDENT();
 			break;
 		}
-		case2:{
+		case 2:{
 			DELET_STUDENT();
 			break;
 		}
-		case3:{
+		case 3:{
 			DELET_AllSTUDENT();
 			break;
 		}
-		case4:{
+		case 4:{
 			Show_List();
 			break;
 		}
-		case5:{
+		case 5:{
 			Find_MiddleRecord();
 			break;
 		}
-		case6:{
+		case 6:{
 			Give_Index_ToPrintData();
 			break;
 		}
-		case7:{
+		case 7:{
 			Give_Index_ToPrintData_FromEnd();
 			break;
 		}
-		case8:{
-			int length;
-			length=Find_Length(GPFirst_student);
-			Dprint("The length = %d",length);
+		case 8:{
+			printf("\n The length = %d",Find_Length(GPFirst_student));
 			break;
 		}
 		default:{
-			Dprint("The State NOT FOUND!!");
+			printf("\n The State NOT FOUND!!");
 		}
 		}
 
 	}
+	return 0;
 }
