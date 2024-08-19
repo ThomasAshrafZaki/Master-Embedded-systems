@@ -131,8 +131,6 @@ int Find_MiddleRecord(){
 	//set pointer to check
 	struct SStudent *PJumpStudent=GPFirst_student;
 	struct SStudent *PMainStudent=GPFirst_student;
-	//counter
-	vuint32_t count=0;
 	//check empty
 	if(GPFirst_student)
 	{

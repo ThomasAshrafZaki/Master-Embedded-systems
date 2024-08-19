@@ -11,7 +11,6 @@
 #include "conio.h"
 #include "string.h"
 #include "DB.h"
-
 int main(void)
 {
 	while(1){
@@ -42,12 +41,14 @@ int main(void)
 			break;
 		}
 		case 6:{
+			printf("\n the first student--->index=0");
 			Give_Index_ToPrintData();
 			break;
 		}
 		case 7:{
-			Give_Index_ToPrintData_FromEnd();
-			break;
+			printf("\n the end student--->index=0");
+            Give_Index_ToPrintData_FromEnd();
+            break;
 		}
 		case 8:{
 			printf("\n The length = %d",Find_Length(GPFirst_student));
