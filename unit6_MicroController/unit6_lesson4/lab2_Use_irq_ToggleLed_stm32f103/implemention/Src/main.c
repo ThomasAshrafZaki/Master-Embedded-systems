@@ -63,8 +63,9 @@ void CLOCK_INIT(void){
 
 }
 void main(void){
-	GPIO_INIT();
 	CLOCK_INIT();
+	GPIO_INIT();
+	
 	/*Bits 15:0 EXTIx[3:0]: EXTI x configuration (x= 0 to 3)
 	These bits are written by software to select the source input for EXTIx external interrupt.
 	Refer to Section 10.2.5: External interrupt/event line mapping

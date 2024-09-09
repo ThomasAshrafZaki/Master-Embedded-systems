@@ -152,10 +152,10 @@ void CLOCK_INIT(void){
 void main(void){
  80001d0:	b580      	push	{r7, lr}
  80001d2:	af00      	add	r7, sp, #0
-	GPIO_INIT();
- 80001d4:	f7ff ffcc 	bl	8000170 <GPIO_INIT>
 	CLOCK_INIT();
- 80001d8:	f7ff ffe6 	bl	80001a8 <CLOCK_INIT>
+ 80001d4:	f7ff ffe8 	bl	80001a8 <CLOCK_INIT>
+	GPIO_INIT();
+ 80001d8:	f7ff ffca 	bl	8000170 <GPIO_INIT>
 	0011: PD[x] pin
 	0100: PE[x] pin
 	0101: PF[x] pin
