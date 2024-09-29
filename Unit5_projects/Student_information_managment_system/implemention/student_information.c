@@ -15,49 +15,56 @@ extern element_type* buf_ptr;
 int check_file=0;
 //APIS
 void Add_Student_from_File(fifo_buffer_t* fifo_buffer) {
-	if(check_file){
-		printf("\n[ERROR]You Add this data before");
-		return;
-	}
-	FILE *file = fopen("students.txt", "r");
-	if (file == NULL) {
-		printf("\n[Error] The File Is Empty");
-		return;
-	}
-	char line[256];
-	element_type item;
-	loop:
-	while (fgets(line, sizeof(line), file)) {
-		enter_student(line, &item);
-		//========check if he enter same id=============
-		fifo_buffer_t temp=*fifo_buffer;//this cannot be pointer becouase it reach to reference(*-->becouse i use fifo_buffer_t temp not fifo_buffer_t*temp)
-		while(temp.count)
-		{
-			if(item.unique_roll==(temp.tail->unique_roll)){
-				printf("\n[ERROR]NOT ADDING %s %s that have same id of %s %s",item.first_name,item.last_name,temp.tail->first_name,temp.tail->last_name);
-				printf("\n==========================");
-				goto loop;
-			}
-			else{
-				temp.count--;
-				temp.tail++;//to loop in buffer checking the unique_roll
-			}
-		}
-		if(FIFO_ENQUEUE(fifo_buffer,item)==fifo_full)//if buffer full
-		{
-			printf("\n[ERROR] the list is full please delete student");
-		}
-		else{//i want to increase length every time when add (to donot take space in memory the user donnot use it now)
-			increment_length_buf(fifo_buffer);//call
-			printf("\n[INFO]ADDING %s %s to the list",item.first_name,item.last_name);
-			printf("\n==========================");
-		}
-	}
-	check_file=1;
-	//to count and print the remain
-	Count_Students(fifo_buffer);//call
-	fclose(file);
+    if (check_file) {
+        printf("\n[ERROR] You have added this data before.");
+        return;
+    }
+
+    FILE *file = fopen("students.txt", "r");
+    if (file == NULL) {
+        printf("\n[ERROR] The file could not be opened or is empty.");
+        return;
+    }
+
+    char line[256];
+    element_type item;
+
+    while (fgets(line, sizeof(line), file)) {
+        enter_student(line, &item);
+
+        // Check if the student ID already exists in the FIFO buffer
+        int check = 0;
+        for (int i = 0; i < fifo_buffer->count; i++) {
+            element_type existing_student = fifo_buffer->tail[i]; // Use the tail to access the elements
+            if (item.unique_roll == existing_student.unique_roll) {
+                printf("\n[ERROR] NOT ADDING %s %s due to duplicate ID with %s %s",
+                       item.first_name, item.last_name,
+                       existing_student.first_name, existing_student.last_name);
+                printf("\n==========================");
+                check = 1; // Set flag to not enqueue this student
+                break; // Exit the loop early
+            }
+        }
+
+        if (!check) {
+            // Attempt to enqueue the new student
+            fifo_status status = FIFO_ENQUEUE(fifo_buffer, item);
+            if (status == fifo_full) {
+                printf("\n[ERROR] The list is full; please delete a student.");
+            } else {
+                // Increment length only after successful addition
+                increment_length_buf(fifo_buffer);
+                printf("\n[INFO] ADDING %s %s to the list", item.first_name, item.last_name);
+                printf("\n==========================");
+            }
+        }
+    }
+
+    check_file = 1; // Mark that data has been added
+    Count_Students(fifo_buffer); // Count and print the remaining students
+    fclose(file); // Close the file after reading
 }
+
 
 //-------------------------------------------------
 void Add_Student_Manualy(fifo_buffer_t* fifo_buffer){
